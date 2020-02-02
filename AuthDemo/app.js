@@ -9,6 +9,16 @@ mongoose.connect("mongodb://localhost:27017/TWDB", { useNewUrlParser: true, useU
 
 const app = express();
 app.set('view engine', 'ejs');
+app.use(require('express-session')({
+    secret: 'Rusty is the best and cutest dog in the world',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.get('/', (req, res) => {
     res.render('home');
